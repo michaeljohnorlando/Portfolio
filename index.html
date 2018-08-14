@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Hologram Selection</title>
+  <link rel="stylesheet" href="css\style.css">
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://code.jquery.com/pep/0.4.1/pep.js"></script>
+
+</head>
+
+<body>
+
+  <!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+  <body>
+    <header>
+      <nav>
+        MR. Orlando
+      </nav>
+    </header>
+    <article>
+        <h1>Creates:</h1>
+        <div class="loader" id="loader"></div>
+    </article>
+    <div id = "flex">
+      <canvas id="renderCanvas" touch-action="none"></canvas>
+      <script>
+        var fbx = ['test_sphere.babylon','diamond.babylon','wordpress.babylon']
+        var mesh_names = []
+        var fbx_counter = 0
+        var canvas = document.getElementById("renderCanvas"); // Get the canvas element
+        var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+
+        /******* Add the create scene function ******/
+        var createScene = function () {
+              var scene = new BABYLON.Scene(engine);
+
+              var camera = new BABYLON.ArcRotateCamera("Camera", 0, 2, -10, new BABYLON.Vector3(0, 0,0), scene);
+              camera.attachControl(canvas, true);
+              camera.setPosition(new BABYLON.Vector3(0, 1, -11));
+
+              var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
+              var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+
+              BABYLON.SceneLoader.ImportMesh("", "Bab_mesh/", "platform.babylon", scene, function (newMeshes) {});
+
+              function import_mesh() {
+                var copy_count = fbx_counter
+                BABYLON.SceneLoader.ImportMesh("", "Bab_mesh/", fbx[fbx_counter], scene, function (newMeshes) {
+                  var Axis = new BABYLON.Vector3(Math.sin(23 * Math.PI/180), Math.cos(23 * Math.PI/180), 0);
+                  scene.registerBeforeRender(function() {
+                  newMeshes[0].rotate(Axis, .01, BABYLON.Space.WORLD);
+                  })
+                  newMeshes[0].name = newMeshes[0].name + copy_count
+                  console.log(newMeshes[0].name)
+                  mesh_names.push(newMeshes[0].name);
+
+                    newMeshes[0].isVisible = false;
+                    console.log("hideing: " + newMeshes[0].name);
+                    scene.getMeshByName(mesh_names[0]).isVisible = true;   // Show mesh
+
+                });
+              }
+              for (fbx_counter = 0; fbx_counter < fbx.length; fbx_counter++) {
+                import_mesh();
+              }
+              fbx_counter=0;
+              scene.clearColor = new BABYLON.Color3(0, 0, 0);
+
+              return scene;
+          };
+            /******* End of the create scene function ******/
+
+            var scene = createScene();
+
+        engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
+            //newMeshes[0].position.x += 3;
+            scene.render();
+        });
+
+        window.addEventListener("resize", function () { // Watch for browser/canvas resize events
+                engine.resize();
+        });
+
+        function console_display(){
+          //hide all
+          document.getElementById("rails_text").style.visibility = "hidden";
+          document.getElementById("wordpress_text").style.visibility = "hidden";
+          //display current
+          switch (fbx_counter){
+             case 0:
+               document.getElementById("rails_text").style.visibility = "visible";
+               break;
+             case 2:
+               document.getElementById("wordpress_text").style.visibility = "visible";
+               break;
+             default:
+          }
+
+        }
+        function change_fbx_down() {
+          var current_mesh = fbx_counter;
+          if (fbx_counter == 0){
+            fbx_counter = fbx.length-1;
+          }
+            else {
+              fbx_counter--;
+            }
+
+          console.log('show Mesh:' + fbx_counter);
+          console.log('hide Mesh:' + current_mesh);
+          scene.getMeshByName(mesh_names[current_mesh]).isVisible = false; // Hide mesh
+          scene.getMeshByName(mesh_names[fbx_counter]).isVisible = true;   // Show mesh
+          //scene.getMeshByName("Mesh_name").dispose();
+          console_display();
+        }
+        function change_fbx_up() {
+          var current_mesh = fbx_counter;
+          if (fbx_counter == fbx.length-1){
+            fbx_counter = 0;
+          }
+            else {
+              fbx_counter++;
+            }
+            console.log('show Mesh:' + fbx_counter);
+            console.log('hide Mesh:' + current_mesh);
+            scene.getMeshByName(mesh_names[current_mesh]).isVisible = false; // Hide mesh
+            scene.getMeshByName(mesh_names[fbx_counter]).isVisible = true;   // Show mesh
+            //scene.getMeshByName("Mesh_name").dispose();
+            console_display();
+        }
+      </script>
+      <figure>
+        <svg id="svg_container" width="575" height="374" viewBox="0 0 575 374" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="76.5422" height="143.913" transform="translate(259.497 284.087)" fill="#656464"/>
+          <path d="M103.071 253.683L0.741379 0.5H574.287L482.649 253.683H103.071Z" transform="translate(575 254.183) rotate(-180)" fill="#666565" stroke="black"/>
+          <g filter="url(#filter0_d)">
+          <path d="M21.4692 0H142.817L161.485 67.2838H0L21.4692 0Z" transform="translate(484.456 28.0349) scale(-1 1)" fill="#666565"/>
+          <path d="M0.684379 66.7838L21.8344 0.5H142.436L160.828 66.7838H0.684379Z" transform="translate(484.456 28.0349) scale(-1 1)" stroke="black"/>
+          </g>
+          <g filter="url(#filter2_d)">
+          <path d="M28.8723 0H192.064L217.17 80.7406H0L28.8723 0Z" transform="translate(517.126 147.277) scale(-1 1)" fill="#666565"/>
+          <path d="M0.709804 80.2406L29.2245 0.5H191.696L216.491 80.2406H0.709804Z" transform="translate(517.126 147.277) scale(-1 1)" stroke="black"/>
+          </g>
+          <g filter="url(#filter4_i)">
+          <path d="M0 0H170.82L242.695 212.131H28.9367L0 0Z" transform="translate(282.833 18.6899) scale(-1 1)" fill="#666565"/>
+          <text x="120" y="50" id="rails_text">Ruby on Rails</text>
+          <text x="120" y="50" id="wordpress_text">Wordpress</text>
+          </g>
+          <rect width="573.133" height="31.7729" transform="translate(1.86694 252.314)" fill="#666565" fill-opacity="0.44"/>
+          <rect x="0.5" y="0.5" width="572.133" height="30.7729" fill="#666565" transform="translate(1.86694 252.314)" stroke="black" stroke-opacity="0.31"/>
+
+          <g id="top_button" onclick="change_fbx_up()">
+            <path d="M21.4692 0H142.817L161.485 67.2838H0L21.4692 0Z" transform="translate(483.522 20.559) scale(-1 1)" fill="#666565"/>
+            <path d="M0.684379 66.7838L21.8344 0.5H142.436L160.828 66.7838H0.684379Z" transform="translate(483.522 20.559) scale(-1 1)" stroke="black"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(433.006 75.6588) scale(-0.999999 1) rotate(-88.9359)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(433.006 75.6588) scale(-0.999999 1) rotate(-88.9359)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(433.006 75.6588) scale(-0.999999 1) rotate(-88.9359)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(433.006 75.6588) scale(-0.999999 1) rotate(-88.9359)" stroke="black"/>
+          </g>
+
+          <g id="bottom_button" onclick="change_fbx_down()">
+            <path d="M28.8723 0H192.064L217.17 80.7406H0L28.8723 0Z" transform="translate(515.871 138.306) scale(-1 1)" fill="#666565"/>
+            <path d="M0.709804 80.2406L29.2245 0.5H191.696L216.491 80.2406H0.709804Z" transform="translate(515.871 138.306) scale(-1 1)" stroke="black"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(440.473 154.317) rotate(91.0641)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(440.473 154.317) rotate(91.0641)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(440.473 154.317) rotate(91.0641)" fill="#1D1B1B"/>
+            <path d="M1.48091 1.46669L46.6568 28.4435L1.48091 55.4203L17.7863 28.704L17.9452 28.4435L17.7863 28.183L1.48091 1.46669Z" transform="translate(440.473 154.317) rotate(91.0641)" stroke="black"/>
+          </g>
+
+          <defs>
+          <filter id="filter0_d" x="318.971" y="28.0349" width="169.485" height="75.2838" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+          <feOffset dy="4"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+          </filter>
+          <filter id="filter1_d" x="318.037" y="20.559" width="169.485" height="75.2838" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+          <feOffset dy="4"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+          </filter>
+          <filter id="filter2_d" x="295.957" y="147.277" width="225.17" height="88.7406" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+          <feOffset dy="4"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+          </filter>
+          <filter id="filter3_d" x="294.701" y="138.306" width="225.17" height="88.7406" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+          <feOffset dy="4"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+          </filter>
+          <filter id="filter4_i" x="40.1379" y="18.6899" width="242.695" height="216.131" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0" result="hardAlpha"/>
+          <feOffset dy="4"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="shape" result="effect1_innerShadow"/>
+          </filter>
+          </defs>
+        </svg>
+      </figure>
+    </div>
+  </body>
+</html>
+</body>
+<script src="js\text.js"></script>
+<!-- GLTF stuff  <script src="js\3js_gltf.js"></script> -->
+</html>

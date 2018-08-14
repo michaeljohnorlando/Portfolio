@@ -1,0 +1,93 @@
+*{
+
+}
+body{
+  margin: 0px;
+  background-color: black;
+}
+header{
+  padding-left: 10px;
+  height:10vh;
+  font-size: 10vh;
+  color: #9D0000;
+  font-family: ROBOTECH GP;
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
+}
+#rails_text { font: italic 25px serif; fill: black; visibility: hidden;}
+#wordpress_text { font: italic 25px serif; fill: black; visibility: hidden;}
+article{
+  position: absolute;
+  right: 1%;
+  font-size: 30px;
+  padding-left: 20px;
+  font-family: ROBOTECH GP;
+  color: #13EB00;
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
+}
+h1{
+  margin: 0px;
+}
+
+#renderCanvas {
+    height: 60vh;
+}
+#flex{
+  display:flex;
+  flex-direction:column;
+}
+figure{
+  position: absolute;
+  top: 100vh;
+  transform: translateY(-103%);
+  /* right: 11px; */
+}
+svg, #svg_container{
+  height: 35vh;
+  width: 85vw;
+}
+
+@media only screen and (min-width: 800px) {
+  figure{
+    position: absolute;
+    top: 100vh;
+    transform: translateY(-100%);
+    right: 0px;
+  }
+  #renderCanvas {
+              height: 90vh;
+              width: 64vw;
+  }
+  svg, #svg_container{
+    height: 50vh;
+    width: auto;
+  }
+  article{
+    position: absolute;
+    right: 25%;
+    font-size: 30px;
+    padding-left: 20px;
+    font-family: ROBOTECH GP;
+    color: #13EB00;
+    text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
+  }
+}
+#bottom_button:active{
+  transform: translateY(10px);
+  animation: popup 10s 6.5s ease infinite;
+}
+#top_button:active{
+  transform: translateY(10px);
+  animation: popup 10s 6.5s ease infinite;
+}
+.loader {
+  padding-left: 10%;
+  width: 300px;
+  color: #13EB00;
+  font-size: 40px;
+  font-family: ROBOTECH GP;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.loader:after {
+  content: '_';
+}
